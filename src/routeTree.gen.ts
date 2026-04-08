@@ -14,6 +14,7 @@ import { Route as WhiteLayoutRouteImport } from './routes/_whiteLayout'
 import { Route as AuthenticationRouteImport } from './routes/_authentication'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WhiteLayoutLoginRouteImport } from './routes/_whiteLayout/login'
+import { Route as DemoLanguageRouteImport } from './routes/_demo/language'
 import { Route as AuthenticationUserIdRouteImport } from './routes/_authentication/user/$id'
 
 const AboutRoute = AboutRouteImport.update({
@@ -39,6 +40,11 @@ const WhiteLayoutLoginRoute = WhiteLayoutLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => WhiteLayoutRoute,
 } as any)
+const DemoLanguageRoute = DemoLanguageRouteImport.update({
+  id: '/_demo/language',
+  path: '/language',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticationUserIdRoute = AuthenticationUserIdRouteImport.update({
   id: '/user/$id',
   path: '/user/$id',
@@ -48,12 +54,14 @@ const AuthenticationUserIdRoute = AuthenticationUserIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/language': typeof DemoLanguageRoute
   '/login': typeof WhiteLayoutLoginRoute
   '/user/$id': typeof AuthenticationUserIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/language': typeof DemoLanguageRoute
   '/login': typeof WhiteLayoutLoginRoute
   '/user/$id': typeof AuthenticationUserIdRoute
 }
@@ -63,20 +71,22 @@ export interface FileRoutesById {
   '/_authentication': typeof AuthenticationRouteWithChildren
   '/_whiteLayout': typeof WhiteLayoutRouteWithChildren
   '/about': typeof AboutRoute
+  '/_demo/language': typeof DemoLanguageRoute
   '/_whiteLayout/login': typeof WhiteLayoutLoginRoute
   '/_authentication/user/$id': typeof AuthenticationUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/login' | '/user/$id'
+  fullPaths: '/' | '/about' | '/language' | '/login' | '/user/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/login' | '/user/$id'
+  to: '/' | '/about' | '/language' | '/login' | '/user/$id'
   id:
     | '__root__'
     | '/'
     | '/_authentication'
     | '/_whiteLayout'
     | '/about'
+    | '/_demo/language'
     | '/_whiteLayout/login'
     | '/_authentication/user/$id'
   fileRoutesById: FileRoutesById
@@ -86,6 +96,7 @@ export interface RootRouteChildren {
   AuthenticationRoute: typeof AuthenticationRouteWithChildren
   WhiteLayoutRoute: typeof WhiteLayoutRouteWithChildren
   AboutRoute: typeof AboutRoute
+  DemoLanguageRoute: typeof DemoLanguageRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -124,6 +135,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof WhiteLayoutLoginRouteImport
       parentRoute: typeof WhiteLayoutRoute
+    }
+    '/_demo/language': {
+      id: '/_demo/language'
+      path: '/language'
+      fullPath: '/language'
+      preLoaderRoute: typeof DemoLanguageRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authentication/user/$id': {
       id: '/_authentication/user/$id'
@@ -164,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticationRoute: AuthenticationRouteWithChildren,
   WhiteLayoutRoute: WhiteLayoutRouteWithChildren,
   AboutRoute: AboutRoute,
+  DemoLanguageRoute: DemoLanguageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

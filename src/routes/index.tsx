@@ -1,13 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Provider as JotaiProvider } from "jotai";
-import { store } from "#/store";
 
 export const Route = createFileRoute("/")({
-	component: () => (
-		<JotaiProvider store={store}>
-			<App />
-		</JotaiProvider>
-	),
+	component: App,
 });
 
 function App() {
