@@ -10,11 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as WhiteLayoutRouteImport } from './routes/_whiteLayout'
+import { Route as AuthenticationRouteImport } from './routes/_authentication'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WhiteLayoutLoginRouteImport } from './routes/_whiteLayout/login'
+import { Route as AuthenticationUserIdRouteImport } from './routes/_authentication/user/$id'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WhiteLayoutRoute = WhiteLayoutRouteImport.update({
+  id: '/_whiteLayout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticationRoute = AuthenticationRouteImport.update({
+  id: '/_authentication',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,30 +34,57 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WhiteLayoutLoginRoute = WhiteLayoutLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => WhiteLayoutRoute,
+} as any)
+const AuthenticationUserIdRoute = AuthenticationUserIdRouteImport.update({
+  id: '/user/$id',
+  path: '/user/$id',
+  getParentRoute: () => AuthenticationRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof WhiteLayoutLoginRoute
+  '/user/$id': typeof AuthenticationUserIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof WhiteLayoutLoginRoute
+  '/user/$id': typeof AuthenticationUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authentication': typeof AuthenticationRouteWithChildren
+  '/_whiteLayout': typeof WhiteLayoutRouteWithChildren
   '/about': typeof AboutRoute
+  '/_whiteLayout/login': typeof WhiteLayoutLoginRoute
+  '/_authentication/user/$id': typeof AuthenticationUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/about' | '/login' | '/user/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '/about' | '/login' | '/user/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authentication'
+    | '/_whiteLayout'
+    | '/about'
+    | '/_whiteLayout/login'
+    | '/_authentication/user/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticationRoute: typeof AuthenticationRouteWithChildren
+  WhiteLayoutRoute: typeof WhiteLayoutRouteWithChildren
   AboutRoute: typeof AboutRoute
 }
 
@@ -58,6 +97,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_whiteLayout': {
+      id: '/_whiteLayout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof WhiteLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authentication': {
+      id: '/_authentication'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -65,11 +118,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_whiteLayout/login': {
+      id: '/_whiteLayout/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof WhiteLayoutLoginRouteImport
+      parentRoute: typeof WhiteLayoutRoute
+    }
+    '/_authentication/user/$id': {
+      id: '/_authentication/user/$id'
+      path: '/user/$id'
+      fullPath: '/user/$id'
+      preLoaderRoute: typeof AuthenticationUserIdRouteImport
+      parentRoute: typeof AuthenticationRoute
+    }
   }
 }
 
+interface AuthenticationRouteChildren {
+  AuthenticationUserIdRoute: typeof AuthenticationUserIdRoute
+}
+
+const AuthenticationRouteChildren: AuthenticationRouteChildren = {
+  AuthenticationUserIdRoute: AuthenticationUserIdRoute,
+}
+
+const AuthenticationRouteWithChildren = AuthenticationRoute._addFileChildren(
+  AuthenticationRouteChildren,
+)
+
+interface WhiteLayoutRouteChildren {
+  WhiteLayoutLoginRoute: typeof WhiteLayoutLoginRoute
+}
+
+const WhiteLayoutRouteChildren: WhiteLayoutRouteChildren = {
+  WhiteLayoutLoginRoute: WhiteLayoutLoginRoute,
+}
+
+const WhiteLayoutRouteWithChildren = WhiteLayoutRoute._addFileChildren(
+  WhiteLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticationRoute: AuthenticationRouteWithChildren,
+  WhiteLayoutRoute: WhiteLayoutRouteWithChildren,
   AboutRoute: AboutRoute,
 }
 export const routeTree = rootRouteImport
