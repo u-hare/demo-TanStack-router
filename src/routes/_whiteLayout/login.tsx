@@ -1,9 +1,23 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import { atom, useAtom } from "jotai";
 
-export const Route = createFileRoute('/_whiteLayout/login')({
-  component: RouteComponent,
-})
+const numAtom = atom(12);
+export const Route = createFileRoute("/_whiteLayout/login")({
+	component: RouteComponent,
+});
 
 function RouteComponent() {
-  return <div>Hello "/login"!</div>
+	const [num, setNum] = useAtom(numAtom);
+
+	return (
+		<div>
+			<div>Hello "/login"!</div>
+			<div className="flex  gap-2">
+				<div>{num}</div>
+				<button type="button" onClick={() => setNum(num + 1)}>
+					增加
+				</button>
+			</div>
+		</div>
+	);
 }
