@@ -12,6 +12,8 @@
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",
+    "check:write": "biome check --write",
+    "check:staged": "biome check --staged",
     "check": "biome check"
   },
   "dependencies": {
