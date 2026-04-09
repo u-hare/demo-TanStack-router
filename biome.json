@@ -8,6 +8,8 @@
 	"files": {
 		"ignoreUnknown": false,
 		"includes": [
+			"src/**/*.ts",
+			"src/**/*.tsx",
 			"**/src/**/*",
 			"**/.vscode/**/*",
 			"**/index.html",

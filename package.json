@@ -23,6 +23,7 @@
     "@tanstack/react-router": "latest",
     "@tanstack/react-router-devtools": "latest",
     "@tanstack/router-plugin": "^1.132.0",
+    "ahooks": "^3.9.7",
     "axios": "^1.14.0",
     "jotai": "^2.19.1",
     "lucide-react": "^1.7.0",

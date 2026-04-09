@@ -15,6 +15,7 @@ import { Route as AuthenticationRouteImport } from './routes/_authentication'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WhiteLayoutLoginRouteImport } from './routes/_whiteLayout/login'
 import { Route as DemoLanguageRouteImport } from './routes/_demo/language'
+import { Route as DemoDictRouteImport } from './routes/_demo/dict'
 import { Route as AuthenticationUserIdRouteImport } from './routes/_authentication/user/$id'
 
 const AboutRoute = AboutRouteImport.update({
@@ -45,6 +46,11 @@ const DemoLanguageRoute = DemoLanguageRouteImport.update({
   path: '/language',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemoDictRoute = DemoDictRouteImport.update({
+  id: '/_demo/dict',
+  path: '/dict',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticationUserIdRoute = AuthenticationUserIdRouteImport.update({
   id: '/user/$id',
   path: '/user/$id',
@@ -54,6 +60,7 @@ const AuthenticationUserIdRoute = AuthenticationUserIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/dict': typeof DemoDictRoute
   '/language': typeof DemoLanguageRoute
   '/login': typeof WhiteLayoutLoginRoute
   '/user/$id': typeof AuthenticationUserIdRoute
@@ -61,6 +68,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/dict': typeof DemoDictRoute
   '/language': typeof DemoLanguageRoute
   '/login': typeof WhiteLayoutLoginRoute
   '/user/$id': typeof AuthenticationUserIdRoute
@@ -71,21 +79,23 @@ export interface FileRoutesById {
   '/_authentication': typeof AuthenticationRouteWithChildren
   '/_whiteLayout': typeof WhiteLayoutRouteWithChildren
   '/about': typeof AboutRoute
+  '/_demo/dict': typeof DemoDictRoute
   '/_demo/language': typeof DemoLanguageRoute
   '/_whiteLayout/login': typeof WhiteLayoutLoginRoute
   '/_authentication/user/$id': typeof AuthenticationUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/language' | '/login' | '/user/$id'
+  fullPaths: '/' | '/about' | '/dict' | '/language' | '/login' | '/user/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/language' | '/login' | '/user/$id'
+  to: '/' | '/about' | '/dict' | '/language' | '/login' | '/user/$id'
   id:
     | '__root__'
     | '/'
     | '/_authentication'
     | '/_whiteLayout'
     | '/about'
+    | '/_demo/dict'
     | '/_demo/language'
     | '/_whiteLayout/login'
     | '/_authentication/user/$id'
@@ -96,6 +106,7 @@ export interface RootRouteChildren {
   AuthenticationRoute: typeof AuthenticationRouteWithChildren
   WhiteLayoutRoute: typeof WhiteLayoutRouteWithChildren
   AboutRoute: typeof AboutRoute
+  DemoDictRoute: typeof DemoDictRoute
   DemoLanguageRoute: typeof DemoLanguageRoute
 }
 
@@ -143,6 +154,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoLanguageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_demo/dict': {
+      id: '/_demo/dict'
+      path: '/dict'
+      fullPath: '/dict'
+      preLoaderRoute: typeof DemoDictRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authentication/user/$id': {
       id: '/_authentication/user/$id'
       path: '/user/$id'
@@ -182,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticationRoute: AuthenticationRouteWithChildren,
   WhiteLayoutRoute: WhiteLayoutRouteWithChildren,
   AboutRoute: AboutRoute,
+  DemoDictRoute: DemoDictRoute,
   DemoLanguageRoute: DemoLanguageRoute,
 }
 export const routeTree = rootRouteImport
