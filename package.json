@@ -17,6 +17,7 @@
     "check": "biome check"
   },
   "dependencies": {
+    "@ant-design/pro-components": "^2.8.10",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-router": "latest",
